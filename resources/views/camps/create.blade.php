@@ -41,7 +41,7 @@
                             <label for="camp_date" class="col-md-4 col-form-label text-md-right">{{ __('Camp Date') }}</label>
 
                             <div class="col-sm-6">
-                                <input id="camp_date" type="text" class="form-control{{ $errors->has('camp_date') ? ' is-invalid' : '' }}" name="camp_date" placeholder="eg. 29th august,2018" required autofocus>
+                                <input id="camp_date" type="date" class="form-control{{ $errors->has('camp_date') ? ' is-invalid' : '' }}" name="camp_date" placeholder="eg. 29th august,2018" required autofocus>
                             </div>
                         </div>
 
