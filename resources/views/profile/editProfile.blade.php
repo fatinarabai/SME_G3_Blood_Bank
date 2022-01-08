@@ -37,6 +37,18 @@
                         </div>
 
                         <div class="form-group row">
+                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="status" id="status" class="form-control">
+                                    <option value = "donor" >Donor</option>
+                                    <option value = "requestor">Requestor</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
                             <label for="mobile" class="col-md-4 col-form-label text-md-right">{{ __('Mobile') }}</label>
 
                             <div class="col-md-6">
