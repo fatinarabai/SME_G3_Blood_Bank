@@ -38,7 +38,7 @@
                             <lable for="camp_date" class="col-md-4 col-form-label text-md-right">Camp Date</lable>
 
                             <div class="col-md-6">
-                                <input type="text" id="camp_date" name="camp_date" value ="{{ $camps->camp_date  }}" class="form-control"/>
+                                <input type="date" id="camp_date" name="camp_date" value ="{{ $camps->camp_date  }}" class="form-control"/>
                             </div>
                         </div>
 

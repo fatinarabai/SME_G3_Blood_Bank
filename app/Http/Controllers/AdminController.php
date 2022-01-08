@@ -162,7 +162,7 @@ class AdminController extends Controller
 
 
 	public function show(){
-		$camp = Camps::OrderBy('id' ,'asc')->paginate(3);
+		$camp = Camps::OrderBy('camp_date' ,'desc')->paginate(3);
 
 
 		return view('camps.show')->with('camps' , $camp);

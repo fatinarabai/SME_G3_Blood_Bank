@@ -18,7 +18,7 @@ class CreateCampsTable extends Migration
             $table->increments('id');
 
             $table->string('title');
-            $table->string('camp_date');
+            $table->date('camp_date');
             $table->text('contents');
             $table->string('camp_pic');
 
