@@ -6,11 +6,8 @@
 
             <div class="card">
 
-                <div class="card-header">
+            <h4 class="card-header">{{ __('Update a camp') }}</h4>
 
-                    Update a request
-
-                </div>
 
                 <div class="card-body">
 
@@ -46,7 +43,7 @@
 
                         <div class="form-group">
 
-                            <button class="btn btn-success pull-right" type="submit">Update Request</button>
+                            <button class="btn btn-success pull-right" type="submit">Update a camp</button>
 
                         </div>
                     </form>

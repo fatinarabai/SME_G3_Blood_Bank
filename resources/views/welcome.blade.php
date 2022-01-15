@@ -18,7 +18,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light  bg-danger mb-4">
+<nav class="navbar navbar-expand-lg navbar-light  bg-light mb-4">
 
     <a href="{{ url('/') }}"> <img class="image-resize" src="/images/blood-drop-icon.png" alt="blood-drop-icon"/></a>
     <a class="navbar-brand" href="{{ url('/') }}">
@@ -30,8 +30,9 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto">
-            <li><a class="nav-link" href="/forum">Home</a></li>
+
+        <!-- <ul class="navbar-nav mr-auto">
+            <li><a class="nav-link" href="/forum">Forum</a></li>
             <li><a class="nav-link" href="/groups">Groups</a></li>
             <li><a class="nav-link" href="/who">Who Can Donate</a></li>
             <li><a class="nav-link" href="/camps/show">Camps</a></li>
@@ -40,6 +41,26 @@
                     <li><a class="nav-link" href="/admin">Admin Panel</a></li>
                 @endif
             @endif
+        </ul> -->
+        <ul class="navbar-nav mr-auto">
+            @if(Auth::check())
+                @if(Auth::user()->is_registered(Auth::user()->id))
+                    <li><a class="nav-link" href="/forum">Forum</a></li>
+                    <li><a class="nav-link" href="/groups">Groups</a></li>
+                    <li><a class="nav-link" href="/who">Who Can Donate</a></li>
+                    <li><a class="nav-link" href="/camps/show">Camps</a></li>
+                    @if(Auth::check())
+                        @if(Auth::user()->admin)
+                            <li><a class="nav-link" href="/admin">Admin Panel</a></li>
+                        @endif
+                    @endif
+                @endif
+                @else
+                    <li><a class="nav-link" href="/who">Who Can Donate</a></li>
+                    <li><a class="nav-link" href="/camps/show">Camps</a></li>
+            @endif   
+
+            
         </ul>
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -193,78 +214,86 @@
       <!-- / Our Services Section -->
 <hr>
 <!-- For our team view -->
-<div class="ourteam col-md-12">
+
+
+
+<div class="ourteam section py-4 mb-4">
     <h3 class="section-title text-center m-5"><span>Our Team </span></h3>
-    <div class="l-aside col-md-6">
+    
+    <div class="features py-4 mb-4">
 
-        <div class="container-fluid">
+        <div class="container">
+
             <div class="row">
+                
                 <article>
-                    <fieldset style="padding: 10px 10px; font-size: 20px">
-                        <img src="/images/kabita.jpg" style="width: 155px; height: 150px; border-radius: 50%; float: left;clear: left;">
+                    <fieldset style="padding: 10px 20px; font-size: 20px; margin-left:40px">
                         <div class="aside">
-                            Email: parajulikabita10@gmail.com<br>
-                            <i class="fa fa-facebook"></i>: <a href="https://www.facebook.com/kabita.parajuli.3990" target="">Kabita Parajuli</a><br>
-                            Role: Back-end Developer
+                            Fatin <br>
+                            Nur Fatin Izati Binti Mohd Arabai<br>
+                            Role: Leader
                         </div>
                     </fieldset>
                 </article>
-            </div>
-        </div>
 
-        <div class="container-fluid">
-            <div class="row">
                 <article>
-                    <fieldset style="padding: 10px 10px; font-size: 20px">
-                        <img src="/images/prajjwal.jpg" style="width: 155px; height: 150px; border-radius: 50%; float: left; clear: left">
+                    <fieldset style="padding: 10px 20px; font-size: 20px">
                         <div class="aside">
-                            Email: iamprajjwal@gmail.com<br>
-                            <i class="fa fa-facebook"></i>: <a href="https://www.facebook.com/ujrap" target="">प्रज्वल पौडेल</a><br>
-                            Role: Back-end Developer
+                            Hani<br>
+                            Nurur Shuhani Binti Abdul Rani<br>
+                            Role: Back end Developer
                         </div>
                     </fieldset>
                 </article>
+
+                <article>
+                    <fieldset style="padding: 10px 20px; font-size: 20px">
+                        <div class="aside">
+                            Nadia<br>
+                            Nurul Nadia Binti Jamhari<br>
+                            Role: UI/UX Designer
+                        </div>
+                    </fieldset>
+                </article>
+
             </div>
+
+            <div class="row">
+                <article>
+                    <fieldset style="padding: 10px 15px; font-size: 20px; margin-left:40px">
+                        <div class="aside">
+                            Fathimah<br>
+                            Siti Fathimah Azzahrah Binti Halim<br>
+                            Role: Developer
+                        </div> 
+                    </fieldset>
+                </article>
+    
+                <article>
+                    <fieldset style="padding: 10px 20px; font-size: 20px">
+                        <div class="aside">
+                            Hanisah<br>
+                            Siti Nurhanisah Binti Mohamad<br>
+                            Role: System Analyze
+                        </div> 
+                    </fieldset>
+                </article>
+
+                <article>
+                    <fieldset style="padding: 10px 20px; font-size: 20px">
+                        <div class="aside">
+                            Farouq<br>
+                            Muhammad Farouq Ariff Bin Shaharuddin<br>
+                            Role: Tester
+                        </div> 
+                    </fieldset>
+                </article>
+            </div>
+    
         </div>
+
     </div>
-
-
-        <div class="r-aside col-md-6">
-
-            <div class="container-fluid">
-                <div class="row">
-                    <article>
-                        <fieldset style="padding: 10px 10px; font-size: 20px">
-                            <img src="/images/rasilla.jpg" style="width: 155px; height: 150px; border-radius: 50%; float: left; clear: left">
-                            <div class="aside">
-                                Email: rasilamichhane@gmail.com<br>
-                                <i class="fa fa-facebook"></i> : <a href="https://www.facebook.com/rashila.lamichhane.54" target="">Rashila Lamichhane</a><br>
-                                Role: Front-end Developer
-                            </div> 
-                        </fieldset>
-                    </article>
-                </div>
-            </div>
-       
-
-            <div class="container-fluid">
-                <div class="row">
-                    <article>
-                        <fieldset style="padding: 10px 10px; font-size: 20px">
-                            <img src="/images/anjaan.jpg" style="width: 155px; height: 150px; border-radius: 50%; float: left; clear: left;"/>
-                            <div class="aside">
-                                Email: anjangaire@gmail.com<br>
-                                <i class="fa fa-facebook"></i> : <a href="https://www.facebook.com/anjaan.gaire" target="_blank">Anjaan Gaire</a>
-                                <br>
-                                Role: Front-end Developer
-                            </div>
-                            
-                        </fieldset>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </div>
+</div>
 
 
 
@@ -322,30 +351,7 @@
       </div>
 
 
-      <!-- / Contact Section -->
 
-<!-- footer -->
- <footer>
-        <nav class="navbar navbar-expand navbar-light bg-danger">
-             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-                    <li><a class="nav-link" href="/forum">Home</a></li>
-                    <li><a class="nav-link" href="/groups">Groups</a></li>
-                    <li><a class="nav-link" href="/who">Who Can Donate</a></li>
-                    <li><a class="nav-link" href="/camps/show">Camps</a></li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="https://facebook.com/easybloodbank"><i class="fa fa-facebook"></i></a></li>
-                    <li class="nav-item">
-                  <a class="nav-link" href="https://twitter.com/anjaangaire1"><i class="fa fa-twitter"></i></a>
-                </li>                
-                <li class="nav-item">
-                  <a class="nav-link" href="https://github.com/Blood"><i class="fa fa-github"></i></a>
-                </li>
-            </ul>
-        </nav>
-    </footer>
 <!-- new js -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

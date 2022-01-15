@@ -85,4 +85,17 @@ class User extends Authenticatable
 		}
 	}
 
+	public function is_registered($id){
+		$user = User::where('id' , $id)->first();
+
+		if($user->verify == 'verified'){
+			return true;
+		} else if($user->verify == 'not verified'){
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 }

@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-danger  mb-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light  mb-4">
 
     <a href="{{ url('/') }}"> <img class="image-resize" src="/images/blood-drop-icon.png" alt="blood-drop-icon"/></a>
     <a class="navbar-brand" href="{{ url('/') }}">
@@ -32,17 +32,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
         <ul class="navbar-nav mr-auto">
-            <li><a class="nav-link" href="/forum">Home</a></li>
-            <li><a class="nav-link" href="/groups">Groups</a></li>
-            <li><a class="nav-link" href="/who">Who Can Donate</a></li>
-            <li><a class="nav-link" href="/camps/show">Camps</a></li>
             @if(Auth::check())
-                @if(Auth::user()->admin)
-                        <li><a class="nav-link" href="/admin">Admin Panel</a></li>
+                @if(Auth::user()->is_registered(Auth::user()->id))
+                    <li><a class="nav-link" href="/forum">Forum</a></li>
+                    <li><a class="nav-link" href="/groups">Groups</a></li>
+                    <li><a class="nav-link" href="/who">Who Can Donate</a></li>
+                    <li><a class="nav-link" href="/camps/show">Camps</a></li>
+                    @if(Auth::check())
+                        @if(Auth::user()->admin)
+                            <li><a class="nav-link" href="/admin">Admin Panel</a></li>
+                        @endif
+                    @endif
                 @endif
-            @endif
-
-
+                @else
+                    <li><a class="nav-link" href="/who">Who Can Donate</a></li>
+                    <li><a class="nav-link" href="/camps/show">Camps</a></li>
+            @endif   
         </ul>
 
         <!-- Right Side Of Navbar -->
@@ -124,31 +129,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
 <script src="/js/shards.js"></script>
 
-
-
-
-@yield('footer')
-        <footer class="fixed-bottom">
-        <nav class="navbar navbar-expand navbar-light bg-danger">
-             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-                    <li><a class="nav-link" href="/forum">Home</a></li>
-                    <li><a class="nav-link" href="/groups">Groups</a></li>
-                    <li><a class="nav-link" href="/who">Who Can Donate</a></li>
-                    <li><a class="nav-link" href="/camps/show">Camps</a></li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="https://facebook.com/easybloodbank"><i class="fa fa-facebook"></i></a></li>
-                    <li class="nav-item">
-                  <a class="nav-link" href="https://twitter.com/anjaangaire1"><i class="fa fa-twitter"></i></a>
-                </li>                
-                <li class="nav-item">
-                  <a class="nav-link" href="https://github.com/iamprazol/Blood"><i class="fa fa-github"></i></a>
-                </li>
-            </ul>
-        </nav>
-    </footer>
 
 
 </body>
