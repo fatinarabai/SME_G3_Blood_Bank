@@ -58,9 +58,20 @@ Route::get('/camps/show' , [
 	'as' => 'camps.show'
 ]);
 
+Route::get('/register' , [
+	'uses' => 'Auth\RegisterController@registerPage' ,
+	'as' => 'register'
+]);
 
+Route::get('/getDistrict/{id}', [
+	'uses' => 'AddressesDistrictController@getDistrict' ,
+	'as' => 'getDistrict'
+]);
 
-
+Route::get('/profile/editProfile', [
+	'uses' => 'ProfileController@editProfile',
+	'as' => 'profile.edit'
+	]);
 
 Route::group(['middleware' => 'auth'] , function () {
 
@@ -136,10 +147,10 @@ Route::group(['middleware' => 'auth'] , function () {
 	]);
 
 
-	Route::get('/profile/editProfile', [
-		'uses' => 'ProfileController@editProfile',
-		'as' => 'profile.edit'
-		]);
+	// Route::get('/profile/editProfile', [
+	// 	'uses' => 'ProfileController@editProfile',
+	// 	'as' => 'profile.edit'
+	// 	]);
 
 	Route::get('/admin' , [
 		'uses' => 'AdminController@index' ,

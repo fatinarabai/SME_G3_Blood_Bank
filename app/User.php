@@ -24,7 +24,7 @@ class User extends Authenticatable
 		'dob',
 		'gender',
 		'mobile',
-		'groups_id', 'latitude' , 'longitude' , 'address' , 'verify' , 'citizenship'
+		'groups_id' , 'verify' , 'citizenship','addresses_id'
 	];
 
 	/**
@@ -38,6 +38,10 @@ class User extends Authenticatable
 	];
 
 	protected $dates = ['dob'];
+
+	public function Address(){
+		return $this->belongsTo('App\Address', 'addresses_id');
+	}
 
 	public function getAge()
 	{
