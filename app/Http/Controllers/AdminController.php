@@ -163,9 +163,39 @@ class AdminController extends Controller
 
 	public function show(){
 		$camp = Camps::OrderBy('camp_date' ,'desc')->paginate(3);
-
-
 		return view('camps.show')->with('camps' , $camp);
+	}
+
+    public function pic($id){
+        $user = Auth::user();
+            if($user->is_verified($user->id)) {
+
+                if ($user->admin) {
+                    $camp = Camps::where('id', $id)->first();
+                    return view('camps.pic', ['id', $id])->with('camps', $camp);
+                } else {
+                    return response('Unauthorized', 401);
+                }
+            } else {
+                Session::flash('cancel' , 'You are still not verified');
+
+                return redirect()->route('forum.index');
+            }
+    }
+
+    public function upload(Request $request, $id)
+	{
+		$file = $request->file('pic');
+		$filename = time() . '.' . $file->getClientOriginalExtension();
+		Image::make($file)->resize(300, 300)->save(public_path('images/' . $filename));
+        
+        $camp = Camps::findOrFail($id);
+		$camp->camp_pic = $filename;
+		$camp->save($request->all());
+
+		$camps = Camps::where('id', $id)->first();
+                    return view('camps.edit', ['id', $id])->with('camps', $camps);
+
 	}
 
 

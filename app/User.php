@@ -24,6 +24,7 @@ class User extends Authenticatable
 		'dob',
 		'gender',
 		'mobile',
+		'role',
 		'groups_id' , 'verify' , 'citizenship','addresses_id'
 	];
 

@@ -48,6 +48,8 @@ Route::get('/who' , [
 	'as' => 'forum.who'
 ]);
 
+//campss
+
 Route::get('/forum/request/show/{id}' ,[
 	'uses' => 'RequestController@show' ,
 	'as' => 'request.show'
@@ -57,6 +59,18 @@ Route::get('/camps/show' , [
 	'uses' => 'AdminController@show' ,
 	'as' => 'camps.show'
 ]);
+
+Route::get('/camps/pic/{id}' , [
+	'uses' => 'AdminController@pic' ,
+	'as' => 'camps.pic'
+]);
+
+Route::post('/camps/upload/{id}',[
+	'uses' => 'AdminController@upload',
+	'as' => 'camps.upload'
+]);
+
+//camps- end
 
 Route::get('/register' , [
 	'uses' => 'Auth\RegisterController@registerPage' ,
