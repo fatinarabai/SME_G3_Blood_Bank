@@ -45,6 +45,43 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <label for="street" class="col-md-4 col-form-label text-md-right">{{ __('Street') }}</label>
+
+                            <div class="col-md-6">
+                            <input id="street" type="text" class="form-control" name="street" value="{{ old('street') }}"  required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="stateId" class="col-md-4 col-form-label text-md-right">{{ __('State') }}</label>
+                            <div class="col-md-6">
+                                <select name="stateId" class="state custom-select" id="stateId">
+                                        <option value="0" selected="" disabled>Choose One</option>
+                                        @foreach($states as $state)
+                                        <option value={{ $state["id"] }}>{{ $state["state"] }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="districtId" class="col-md-4 col-form-label text-md-right">{{ __('District') }}</label>
+                            <div class="col-md-6">
+                                <select name="districtId" class="district custom-select" id="districtId">
+                                        <option value="0" selected="" disabled>Choose One</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="postcode" class="col-md-4 col-form-label text-md-right">{{ __('Postcode') }}</label>
+
+                            <div class="col-md-6">
+                            <input id="postcode" type="text" class="form-control" name="postcode" value="{{ old('postcode') }}"  required>
+                            </div>
+                        </div>
+
 
                         <div class="form-group row">
                             <label for="pic" class="col-md-4 col-form-label text-md-right">{{ __('Choose a pic') }}</label>
@@ -70,4 +107,45 @@
 
 
 
+@endsection
+
+@section('footer')
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(document).on('change', '.state', function() {
+        var state_id =  $('.state').val();     // get id the value from the select
+        console.log(state_id);   // set the textbox value
+
+        $('#districtId').find('option').not(":first").remove();
+
+        $.ajax({
+            url:'/getDistrict/'+state_id,
+            type:'get',
+            dataType:'json',
+            success:function(response){
+                console.log(response[0]["id"]);
+                console.log(response.length);
+                var len = 0;
+
+                if(response!=null){
+                    len = response.length;
+                }
+
+                if(len>0){
+                    for(var i=0;i<len;i++){
+                        var id=response[i]["id"];
+                        var district = response[i]["district"];
+
+                        var option  = "<option value="+id+"> "+district+"</option>";
+
+                        $("#districtId").append(option);
+                    }
+                }
+            }
+        })
+        // if you want the selected text instead of the value
+        // var air_text = $('.aircraftsName option:selected').text(); 
+        });
+    });
+		</script>
 @endsection

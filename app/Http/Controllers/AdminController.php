@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 use App\Groups;
 use App\User;
+use App\Address;
+use App\AddressesState;
 use Auth;
 use App\Camps;
 use Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Image;
 use Carbon\Carbon;
 
@@ -88,7 +91,6 @@ class AdminController extends Controller
         }
     }
 
-
 	public function display(){
     	$camp = Camps::OrderBy('id' , 'asc')->get();
 		$user = Auth::user();
@@ -105,14 +107,21 @@ class AdminController extends Controller
         }
 	}
 
-
 	public function edit($id){
     	$user = Auth::user();
             if($user->is_verified($user->id)) {
 
                 if ($user->admin) {
                     $camp = Camps::where('id', $id)->first();
-                    return view('camps.edit', ['id', $id])->with('camps', $camp);
+                    $getStates = AddressesState::all();
+		
+
+                    for($i=0; $i <count($getStates); $i++){
+                        $states[$i]["id"]=$getStates[$i]->id;
+                        $states[$i]["state"]=$getStates[$i]->state;
+                    
+                    }
+                    return view('camps.edit', ['id', $id])->with(['camps' => $camp, 'states' => $states,]);
                 } else {
                     return response('Unauthorized', 401);
                 }
@@ -121,8 +130,7 @@ class AdminController extends Controller
 
                 return redirect()->route('forum.index');
             }
-        }
-
+    }
 
 	public function update($id){
 
@@ -130,10 +138,20 @@ class AdminController extends Controller
 		$this->validate($r , [
 			'title' => 'required|max:30',
 			'contents' => 'required|string|min:100' ,
-
+            'street' =>'required', 
+            'stateId' =>'required', 
+            'districtId' =>'required', 
+            'postcode' => 'required',
 		]);
 
 			$camp = Camps::find($id);
+            $address = Address::find($camp->addresses_id);
+
+            $address->street = $r->street;
+            $address->state_id = $r->stateId;
+            $address->district_id = $r->districtId;
+            $address->postcode = $r->postcode;
+            $address->save();
 
 			$camp->contents = $r->contents;
 			$camp->title = $r->title;
@@ -159,7 +177,6 @@ class AdminController extends Controller
 
 		return redirect()->route('camps.show');
 	}
-
 
 	public function show(){
 		$camp = Camps::OrderBy('camp_date' ,'desc')->paginate(3);
@@ -198,11 +215,21 @@ class AdminController extends Controller
 
 	}
 
-
 	public function create(){
-		return view('camps.create');
-	}
 
+        $getStates = AddressesState::all();
+		
+
+		for($i=0; $i <count($getStates); $i++){
+			$states[$i]["id"]=$getStates[$i]->id;
+			$states[$i]["state"]=$getStates[$i]->state;
+		
+		}
+
+		return view('camps.create', [
+			'states' => $states,
+		]);
+	}
 
 	public function store(){
 		$req = request();
@@ -210,25 +237,35 @@ class AdminController extends Controller
 		$this->validate($req, [
 			'title' => 'required|max:30',
 			'contents' => 'required|string|min:100' ,
+            'street' => 'required',
+            'stateId' => 'required',
+            'districtId' => 'required',
+            'postcode' => 'required',
 		]);
 
 		$file = $req->file('pic');
 		$filename = time() . '.' . $file->getClientOriginalExtension();
 		Image::make($file)->resize(300, 850)->save(public_path('images/' . $filename));
 
+        $addresses_id = DB::table('addresses')->insertGetId([
+            'street' => $req->street,
+            'state_id'=>$req->stateId,
+            'district_id'=>$req->districtId,
+            'postcode'=>$req->postcode,
+        ]);
+
 		$camp = Camps::create([
 			'title' => $req->title,
 			'contents' => $req->contents ,
 			'camp_date' => $req->camp_date ,
-			'camp_pic' => $filename
+			'camp_pic' => $filename,
+			'addresses_id' => $addresses_id,
 		]);
 
 		Session::flash('success' , 'Camp posted successfully');
 
 		return redirect()->route('camps.show')->with('camps' , $camp);
 	}
-
-
 
 	public function make_admin($id){
 
@@ -245,7 +282,6 @@ class AdminController extends Controller
 		return redirect()->back();
     }
 
-
 	public function remove_admin($id){
 
 		$ad = User::where('id' , $id)->first();
@@ -260,7 +296,6 @@ class AdminController extends Controller
 
 		return redirect()->back();
 	}
-
 
 	public function verify_index()
     {
@@ -279,7 +314,6 @@ class AdminController extends Controller
             return redirect()->route('forum.index');
         }
     }
-
 
     public function verify_admin()
     {
@@ -308,9 +342,6 @@ class AdminController extends Controller
 
 	}
 
-
-
-
 	public function verified($id){
 
 		$ad = User::where('id' , $id)->first();
@@ -323,7 +354,5 @@ class AdminController extends Controller
 
 		return redirect()->back();
 	}
-
-
 
 }

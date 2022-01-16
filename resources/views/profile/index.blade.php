@@ -65,7 +65,18 @@
                                 </tr>
 
                                 <tr>
-                                    <td>Address :</td><td>{{ Auth::user()->address }}</td>
+                                    <td>Street :</td><td>{{ Auth::user()->Address->street }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>State :</td><td>{{ Auth::user()->Address->AddressesState->state }}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>District :</td><td>{{ Auth::user()->Address->AddressesDistrict->name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Poscode :</td><td>{{ Auth::user()->Address->postcode }}</td>
                                 </tr>
 
 

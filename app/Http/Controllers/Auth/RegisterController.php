@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Address;
+use App\AddressesState;
 use App\Requests;
 use App\User;
 use App\Http\Controllers\Controller;
 use http\Env\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Carbon\Carbon;
@@ -59,7 +61,11 @@ class RegisterController extends Controller
 			'email' => 'required|string|email|max:255|unique:users',
 			'password' => 'required|string|min:6|confirmed',
 			'mobile' => 'required|numeric',
-			'dob' => 'required|date|before:	-18 years'
+			'dob' => 'required|date|before:	-18 years',
+			'street' => 'required',
+			'stateId'=> 'required',
+			'districtId'=> 'required',
+			'postcode' =>'required',
 		]);
 	}
 
@@ -84,6 +90,13 @@ class RegisterController extends Controller
             $filename = time() . '.' . $file->getClientOriginalExtension();
             Image::make($file)->resize(300, 850)->save(public_path('images/' . $filename));
 
+			$addresses_id = DB::table('addresses')->insertGetId([
+				'street' => $data['street'],
+				'state_id'=>$data['stateId'],
+				'district_id'=>$data['districtId'],
+				'postcode'=>$data['postcode'],
+			]);
+
             return User::create([
                 'name' => $data['name'],
                 'username' => $data['user_name'],
@@ -95,11 +108,31 @@ class RegisterController extends Controller
                 'dob' => Carbon::parse($data['dob']),
                 'latitude' => 28.2613485,
                 'longitude' => 83.9721112,
-                'address' => $data['address'],
+                'addresses_id' => $addresses_id,
                 'citizenship' => $filename
 
             ]);
         // }
     }
+
+	public function registerPage(){
+		$getStates = AddressesState::all();
+		
+
+		for($i=0; $i <count($getStates); $i++){
+			$states[$i]["id"]=$getStates[$i]->id;
+			$states[$i]["state"]=$getStates[$i]->state;
+		
+		}
+
+		// return $response =[
+		// 	'states' => $states,
+		// ];
+		return view('auth.register', [
+			'states' => $states,
+		]);
+		// return view('auth.register')->with('states' , $states);
+		// return view('auth.register');
+	}
 }
 

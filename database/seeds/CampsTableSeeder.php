@@ -24,6 +24,8 @@ class CampsTableSeeder extends Seeder
                              RSS' ,
 
 			'camp_pic' => 't.jpg' ,
+			'addresses_id'=>8,
+			
 
 		];
 
@@ -34,6 +36,7 @@ class CampsTableSeeder extends Seeder
                                 The campaign was started by the Chairman of Kathmandu Engineering College, Prof. Er. Hirendra Man Pradhan and the Pricipal Er. Shiva Prasad Koirala. Among many students, teachers and staffs that volunteered to donate their blood, only 180 were physically fit and were permitted to donate after being checked by the representatives from NRCS.
 ' ,
 			'camp_pic' => 'l.jpg' ,
+			'addresses_id'=>9,
 
 		];
 
@@ -42,6 +45,7 @@ class CampsTableSeeder extends Seeder
 			'camp_date' => '2017-05-21',
 			'contents' => 'Emergency Blood Donation Program in request from Blood Bank, Pokhara ,organized by the groups - We Are One , Soch Foundation and Shyangja Engineering Students Society on May 21, 2017 held on Paschimanchal Campus, Lamachaur, Pokhara was successful in collecting 123 pints of Blood. The program was successfully conducted with the help from NYN, GRR and whole Paschimanchal Campus Family. We would like to thank everyone of those volunteers and participants. The blood donation program was conducted with the technical support from Nepal Red Cross Society, Kaski. Here are some Glimpse of the program' ,
 			'camp_pic' => 'lk.jpg' ,
+			'addresses_id'=>10,
 
 		];
 
@@ -51,6 +55,7 @@ class CampsTableSeeder extends Seeder
 			'contents' => 'रोट्र्याक्ट क्लब अफ दमौलिका सस्थापक सहसचिब स्वर्गीय सचिन को सम्झ्नामा भएको 4th sachin memorial Nationwide Blood Donation camp मा रोट्र्याक्ट क्लब अफ पर्बत का सदस्य रो. मनोज सपकोटा, रोट्र्याक्ट क्लब अफ डिल्लिबजार काठमाडौले आयोजना गरेको रक्तदान कार्यक्रममा सहभागी हुँदै ।
                                     #धन्यवाद मनोज ।' ,
 			'camp_pic' => 'n.jpg' ,
+			'addresses_id'=>11,
 
 		];
 

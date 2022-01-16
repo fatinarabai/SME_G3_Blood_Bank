@@ -82,11 +82,6 @@ Route::get('/getDistrict/{id}', [
 	'as' => 'getDistrict'
 ]);
 
-Route::get('/profile/editProfile', [
-	'uses' => 'ProfileController@editProfile',
-	'as' => 'profile.edit'
-	]);
-
 Route::group(['middleware' => 'auth'] , function () {
 
 	Route::get('/forum/myrequest/{id}' , [
@@ -160,11 +155,10 @@ Route::group(['middleware' => 'auth'] , function () {
 		'as' => 'profile.update'
 	]);
 
-
-	// Route::get('/profile/editProfile', [
-	// 	'uses' => 'ProfileController@editProfile',
-	// 	'as' => 'profile.edit'
-	// 	]);
+	Route::get('/profile/editProfile', [
+		'uses' => 'ProfileController@editProfile',
+		'as' => 'profile.edit'
+		]);
 
 	Route::get('/admin' , [
 		'uses' => 'AdminController@index' ,
@@ -216,7 +210,6 @@ Route::group(['middleware' => 'auth'] , function () {
 		'uses' => 'ContactController@contact' ,
 		'as' => 'admin.contact'
 	]);
-
 
 
 	Route::get('/camps/create' , [
