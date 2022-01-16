@@ -37,12 +37,12 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="user_name" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
+                            <label for="role" class="col-md-4 col-form-label text-md-right">{{ __('Role') }}</label>
 
                             <div class="col-md-6">
-                                <select name="status" id="status" class="form-control">
-                                    <option value = "donor" >Donor</option>
-                                    <option value = "requestor">Requestor</option>
+                                <select name="role" id="role" class="form-control">
+                                    <option value = "Donor"  <?php echo ('Donor'== $u->role ? 'selected="selected"': ''); ?> >Donor</option>
+                                    <option value = "Requestor"<?php echo ('Requestor'== $u->role ? 'selected="selected"': ''); ?> >Requestor</option>
                                 </select>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date Of Birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="date" class="form-control{{ $errors->has('dob') ?' is-invalid' : '' }}" name="dob" value="{{ $u->dob }}"  required>
+                                <input id="dob" type="date" class="form-control{{ $errors->has('dob') ?' is-invalid' : '' }}" name="dob" value="{{ date('d/m/Y', strtotime($u->dob))}}"  required>
 
                                 @if ($errors->has('dob'))
                                     <span class="invalid-feedback">

@@ -61,6 +61,10 @@
                                 </tr>
 
                                 <tr>
+                                    <td>Role :</td><td>{{ Auth::user()->role }}</td>
+                                </tr>
+
+                                <tr>
                                     <td>Address :</td><td>{{ Auth::user()->address }}</td>
                                 </tr>
 
