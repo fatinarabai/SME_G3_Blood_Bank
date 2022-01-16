@@ -29,7 +29,8 @@ class GroupsController extends Controller
 
 	public function search(){
 
-		$user = User::OrderBy('id' ,'asc')->get();
+		//$user = User::OrderBy('id' ,'asc')->get();
+		$user = User::where('role', "Donor")->latest()->paginate(20);
 		$group = Groups::all();
 		$request = Requests::all();
 

@@ -11,11 +11,18 @@
 
                 <div class="card-body">
 
+                    <div class="form-group row col-md-10 ">
+                        <div class="card-img"><img src="/images/{{ $camps->camp_pic}}" style="float: center; text-align:center; height: 250px; width: 60%;"></div>
+                        <a href="{{ route('camps.pic' , ['id' => $camps->id]) }}" class="btn btn-outline-primary btn-pill btn-sm pull-right"> Change Image</a>
+                    </div>
+
                     <form action="{{ route('camps.update' , ['id' => $camps->id]) }}" method="post">
 
                         {{ csrf_field() }}
 
+                        
                         <div class="form-group row">
+                            
                             <lable for="title" class="col-md-4 col-form-label text-md-right">Title</lable>
 
                             <div class="col-md-6">
