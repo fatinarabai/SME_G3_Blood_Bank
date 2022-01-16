@@ -24,12 +24,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png' ,
 			'groups_id' => 6 ,
 			'mobile' => 9821256117,
-			'latitude' => 28.2613485,
-			'longitude' => 83.9721112 ,
-			'address' => 'lamachaur , pokhara',
 			'verify' => 'verified' ,
-			'citizenship' => 'citizen2.jpg'
-
+			'citizenship' => 'citizen2.jpg',
+			'addresses_id' =>1,
 		]);
 
 
@@ -44,11 +41,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png',
 			'groups_id' => 4 ,
 			'mobile' => 9845690436,
-			'latitude' => 28.2631308,
-			'longitude' => 83.9932144 ,
-			'address' => 'batulichaur , pokhara',
 			'verify' => 'not verified' ,
-			'citizenship' => 'citizen1.jpg'
+			'citizenship' => 'citizen1.jpg',
+			'addresses_id' =>2,
 		]);
 
 		App\User::create([
@@ -61,11 +56,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png',
 			'groups_id' => 8 ,
 			'mobile' => 9847004480,
-			'latitude' => 28.2245888,
-			'longitude' => 83.9889757  ,
-			'address' => 'chipledhunga , pokhara',
 			'verify' => 'not verified' ,
-			'citizenship' => 'citizen3.jpg'
+			'citizenship' => 'citizen3.jpg',
+			'addresses_id' =>3,
 
 		]);
 
@@ -79,11 +72,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png',
 			'groups_id' => 4 ,
 			'mobile' => 9845163257,
-			'latitude' => 28.2613485,
-			'longitude' => 83.9721112 ,
-			'address' => 'lamachaur , pokhara',
 			'verify' => 'not verified' ,
-			'citizenship' => 'citizen1.jpg'
+			'citizenship' => 'citizen1.jpg',
+			'addresses_id' =>4,
 		]);
 
 
@@ -97,11 +88,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png',
 			'groups_id' => 4 ,
 			'mobile' => 9821256118,
-			'latitude' => 28.240552,
-			'longitude' => 83.987653 ,
-			'address' => 'bagar , pokhara',
 			'verify' => 'not verified' ,
-			'citizenship' => 'citizen2.jpg'
+			'citizenship' => 'citizen2.jpg',
+			'addresses_id' => 5,
 		]);
 
 
@@ -115,11 +104,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png',
 			'groups_id' => 7 ,
 			'mobile' => 9845458129,
-			'latitude' => 28.240552 ,
-			'longitude' => 83.987653  ,
-			'address' => 'bagar , pokhara',
 			'verify' => 'not verified' ,
-			'citizenship' => 'citizen3.jpg'
+			'citizenship' => 'citizen3.jpg',
+			'addresses_id' =>6,
 
 		]);
 
@@ -133,11 +120,9 @@ class UsersTableSeeder extends Seeder
 			'avatar' => 'avatar.png',
 			'groups_id' => 3 ,
 			'mobile' => 9847004390,
-			'latitude' => 28.233036 ,
-			'longitude' => 83.990629  ,
-			'address' => 'nadipur , pokhara',
 			'verify' => 'not verified' ,
-			'citizenship' => 'citizen2.jpg'
+			'citizenship' => 'citizen2.jpg',
+			'addresses_id' =>7,
 
 		]);
 	}

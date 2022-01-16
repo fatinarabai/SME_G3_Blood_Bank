@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Address;
+use App\AddressesState;
 use Carbon\Carbon;
 use Session;
 use Image;
@@ -23,8 +25,19 @@ class ProfileController extends Controller
 
     public function editProfile()
     {
-    	$user = User::where('id' , Auth::id())->first();
-        return view('profile.editProfile')->with('u' , $user);
+		$getStates = AddressesState::all();
+		
+
+		for($i=0; $i <count($getStates); $i++){
+			$states[$i]["id"]=$getStates[$i]->id;
+			$states[$i]["state"]=$getStates[$i]->state;
+		
+		}
+    	$user = User::where('id' , Auth::id())->with("Address.AddressesState","Address.AddressesDistrict")->first();
+
+        return view('profile.editProfile')->with([
+			'u' => $user,
+		'states'=>$states,]);
     }
 
 
@@ -53,40 +66,38 @@ class ProfileController extends Controller
 
 
     public function update(Request $request) {
-
+		
     	$this->validate($request,[
 			'email' => 'required|string|email|max:255',
 			'user_name' => 'required|string',
 			'mobile' => 'required|numeric',
 			'role' => 'required|string',
-			'dob' => 'required|date|before: 18 years'
+			'dob' => 'required|date|before: 18 years',
+			'street' => 'required',
+			'stateId'=>'required',
+			'districtId'=>'required',
+			'postcode'=>'required',
 		]);
-
-		$maps_url = 'https://' . 'maps.googleapis.com/' . 'maps/api/geocode/json' . '?address=' . urlencode($request->address);
-		// $geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($request->address) . '&sensor=false');
-		// $geo = json_decode($geo, true); // Convert the JSON to an array
-
 
 		$id = Auth::id();
 		$user = User::find($id);
+
+		$address = Address::find($user->addresses_id);
+		$address->street = $request->street;
+		$address->state_id = $request->stateId;
+		$address->district_id = $request->districtId;
+		$address->postcode = $request->postcode;
+		$address->save();
 
 		$user->email = $request->email;
 		$user->username = $request->user_name;
 		$user->mobile = $request->mobile;
 		$user->dob = Carbon::parse(request()->dob);
-		$user->addresses_id = 1;
 		$user->role = $request->role;
-
-
 		$user->save();
 		
 
 		Session::flash('success' , 'Request updated successfully');
-
 		return redirect()->route('profile.index');
     }
-
-
-
-
 }

@@ -10,7 +10,7 @@ class Address extends Model
         'state_id',
         'district_id',
         'street',
-        'postcode'
+        'postcode',
     ];
 
     public function AddressesDistrict(){

@@ -68,7 +68,7 @@
                             <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Date Of Birth') }}</label>
 
                             <div class="col-md-6">
-                                <input id="dob" type="date" class="form-control{{ $errors->has('dob') ?' is-invalid' : '' }}" name="dob" value="{{ date('d/m/Y', strtotime($u->dob))}}"  required>
+                                <input id="dob" type="date" class="form-control{{ $errors->has('dob') ?' is-invalid' : '' }}" name="dob" value="{{ $u->dob->format('Y-m-d') }}"  required>
 
                                 @if ($errors->has('dob'))
                                     <span class="invalid-feedback">
@@ -79,14 +79,44 @@
                             </div>
                         </div>
 
-                <div class="form-group row">
-                    <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
+                        <div class="form-group row">
+                            <label for="street" class="col-md-4 col-form-label text-md-right">{{ __('Street') }}</label>
 
-                    <div class="col-md-6">
-                        <input id="address" type="text" class="form-control" name="address"   value="{{ $u->address }}"  required>
+                            <div class="col-md-6">
+                                <input id="street" type="text" class="form-control" name="street"   value="{{ $u->Address->street }}"  required>
+                            </div>
+                        </div>
 
-                    </div>
-                </div>
+                        <div class="form-group row">
+                            <label for="stateId" class="col-md-4 col-form-label text-md-right">{{ __('State') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="stateId" class="state custom-select" id="stateId">
+                                        <option value="{{ $u->Address->AddressesState->id }}">{{ $u->Address->AddressesState->state }}</option>
+                                        @foreach($states as $state)
+                                        <option value="{{ $state["id"] }}">{{ $state["state"] }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="districtId" class="col-md-4 col-form-label text-md-right">{{ __('District') }}</label>
+
+                            <div class="col-md-6">
+                                <select name="districtId" class="district custom-select" id="districtId">
+                                                <option value="{{ $u->Address->AddressesDistrict->id }}" selected="">{{ $u->Address->AddressesDistrict->name }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="postcode" class="col-md-4 col-form-label text-md-right">{{ __('Postcode') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="postcode" type="text" class="form-control" name="postcode"   value="{{ $u->Address->postcode }}"  required>
+                            </div>
+                        </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -102,4 +132,69 @@
         </div>
     </div>
 
+@endsection
+
+@section('footer')
+<script type="text/javascript">
+    $(document).ready(function() {
+        var state_id =  $('.state').val();
+        $('#districtId').find('option').not(":first").remove();
+        $.ajax({
+            url:'/getDistrict/'+state_id,
+            type:'get',
+            dataType:'json',
+            success:function(response){
+                var len = 0;
+
+                if(response!=null){
+                    len = response.length;
+                }
+
+                if(len>0){
+                    for(var i=0;i<len;i++){
+                        var id=response[i]["id"];
+                        var district = response[i]["district"];
+
+                        var option  = "<option value="+id+"> "+district+"</option>";
+
+                        $("#districtId").append(option);
+                    }
+                }
+            }
+        })
+
+        $(document).on('change', '.state', function() {
+        var state_id =  $('.state').val();     // get id the value from the select
+       // set the textbox value
+
+        $('#districtId').find('option').remove();
+
+        $.ajax({
+            url:'/getDistrict/'+state_id,
+            type:'get',
+            dataType:'json',
+            success:function(response){
+                var len = 0;
+
+                if(response!=null){
+                    len = response.length;
+                }
+
+                if(len>0){
+                    for(var i=0;i<len;i++){
+                        var id=response[i]["id"];
+                        var district = response[i]["district"];
+
+                        var option  = "<option value="+id+"> "+district+"</option>";
+
+                        $("#districtId").append(option);
+                    }
+                }
+            }
+        })
+        // if you want the selected text instead of the value
+        // var air_text = $('.aircraftsName option:selected').text(); 
+        });
+    });
+		</script>
 @endsection
