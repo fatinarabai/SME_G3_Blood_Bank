@@ -14,7 +14,7 @@ class AlterUsersTableAddcolrole extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table){
-            $table->string('role')->default("donor");
+            $table->string('role')->default("Donor");
         });
     }
 
