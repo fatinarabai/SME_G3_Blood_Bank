@@ -236,5 +236,9 @@ Route::group(['middleware' => 'auth'] , function () {
 		'uses' => 'AdminController@store' ,
 		'as' => 'camps.store'
 	]);
+
+	Route::get('updateZone' , [
+		'uses' => 'AddressesDistrictController@updateDistrictCovidZone'
+	]);
 });
 
