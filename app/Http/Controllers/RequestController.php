@@ -9,7 +9,10 @@ use App\Available;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\User;
+use App\AddressesState;
+use App\Address;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\DB;
 
 class RequestController extends Controller
 {
@@ -20,17 +23,11 @@ class RequestController extends Controller
 		$user = User::all();
 		$available = Available::all();
 
-
-
-
-
 		return view('request.show')->with('requests' , $request)
 										 ->with('groups' , $group)
 										 ->with('users' , $user)
 										 ->with('availables' , $available);
     }
-
-
 
 	public function create() {
 
@@ -38,10 +35,18 @@ class RequestController extends Controller
 
     	$group = Groups::all();
     	$user = User::where('id',$id)->first();
+		$getStates = AddressesState::all();
+		
 
+		for($i=0; $i <count($getStates); $i++){
+			$states[$i]["id"]=$getStates[$i]->id;
+			$states[$i]["state"]=$getStates[$i]->state;
+		
+		}
 
     	if($user->is_verified($user->id)) {
-			return view('request.create')->with('groups', $group);
+			
+			return view('request.create')->with(['groups' => $group, 'states'=>$states]);
 		} else {
 			Session::flash('cancel' , 'You are still not verified');
 
@@ -56,44 +61,41 @@ class RequestController extends Controller
 			'required_till' => 'required|date|after:yesterday'
 		]);
 
-		$maps_url = 'https://' . 'maps.googleapis.com/' . 'maps/api/geocode/json' . '?address=' . urlencode($r->address);
-		$geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($r->address) . '&sensor=false');
-		$geo = json_decode($geo, true); // Convert the JSON to an array
+		$addresses_id = DB::table('addresses')->insertGetId([
+            'street' => $r->street,
+            'state_id'=>$r->stateId,
+            'district_id'=>$r->districtId,
+            'postcode'=>$r->postcode,
+        ]);
 
-		if (isset($geo['status']) && ($geo['status'] == 'OK')) {
-			$latitude = $geo['results'][0]['geometry']['location']['lat']; // Latitude
-			$longitude = $geo['results'][0]['geometry']['location']['lng']; // Longitude
-
-			$req = Requests::create([
-				'contents' => $r->contents,
-				'user_id' => Auth::id(),
-				'groups_id' => $r->groups_id,
-				'required_till' => $r->required_till,
-				'address' => $r->address,
-				'latitude' => $latitude,
-				'longitude' => $longitude,
-			]);
-				$donors = self::closest($latitude, $longitude, 5)->where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->all();
-				Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
-
-
-
-		}
+		$req = Requests::create([
+			'contents' => $r->contents,
+			'user_id' => Auth::id(),
+			'groups_id' => $r->groups_id,
+			'required_till' => $r->required_till,
+			'addresses_id' => $addresses_id,
+		]);
+			$donors = User::where('id' , '!=' , Auth::id())->get();
+			Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
 
     	Session::flash('success' , 'Request posted successfully');
-
     	return redirect()->route('forum.show' , ['id' => $r->groups_id]);
 	}
-
-
 
 	public function  edit($id){
 
     	$request = Requests::where('id' , $id)->first();
+		$getStates = AddressesState::all();
+		
 
-    	return view('request.edit')->with('requests' , $request);
+		for($i=0; $i <count($getStates); $i++){
+			$states[$i]["id"]=$getStates[$i]->id;
+			$states[$i]["state"]=$getStates[$i]->state;
+		
+		}
+
+    	return view('request.edit')->with(['requests' => $request, 'states'=>$states]);
 	}
-
 
 	public function update($id){
 
@@ -104,36 +106,38 @@ class RequestController extends Controller
 
 		]);
 
-		$maps_url = 'https://' . 'maps.googleapis.com/' . 'maps/api/geocode/json' . '?address=' . urlencode($r->address);
-		$geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($r->address) . '&sensor=false');
-		$geo = json_decode($geo, true); // Convert the JSON to an array
-
-		if (isset($geo['status']) && ($geo['status'] == 'OK')) {
-			$latitude = $geo['results'][0]['geometry']['location']['lat']; // Latitude
-			$longitude = $geo['results'][0]['geometry']['location']['lng']; // Longitude
-
 			$req = Requests::find($id);
 
+			$address = Address::find($req->addresses_id);
+
+
+			$address->street = $r->street;
+            $address->state_id = $r->stateId;
+            $address->district_id = $r->districtId;
+            $address->postcode = $r->postcode;
+            $address->save();
+
+		
 			$req->contents = $r->contents;
 			$req->required_till = $r->required_till;
-			$req->address = $r->address;
-			$req->latitude = $latitude;
-			$req->longitude = $longitude;
-
-
 			$req->save();
 
-			$donors = self::closest($latitude, $longitude, 5)->where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->all();
+			$donors = User::where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->get();
 			Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
-		}
 
-			Session::flash('success', 'Request updated successfully');
+			$requests = Requests::where('id' , $id)->get();
+			$group = Groups::all();
+			$user = User::all();
+			$available = Available::all();
 
-			return redirect()->route('forum.show', ['id' => $id]);
+			return view('request.show')->with('requests' , $requests)
+										 ->with('groups' , $group)
+										 ->with('users' , $user)
+										 ->with('availables' , $available);
+	
+			// return redirect()->route('forum.show', ['id' => $r->groups_id]);
 
 	}
-
-
 
 	public function available($id){
 
@@ -157,7 +161,6 @@ class RequestController extends Controller
 		}
 	}
 
-
 	public  function unavailable($id){
 
     	$uid = Auth::id();
@@ -179,11 +182,7 @@ class RequestController extends Controller
 			return redirect()->route('forum.index');
 		}
 
-
 	}
-
-
-
 
 	public static function closest($lat, $lng, $max_distance = 10, $max_locations = 10, $units = 'miles')
 	{

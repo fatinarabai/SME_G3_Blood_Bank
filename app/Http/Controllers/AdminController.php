@@ -204,14 +204,27 @@ class AdminController extends Controller
 	{
 		$file = $request->file('pic');
 		$filename = time() . '.' . $file->getClientOriginalExtension();
-		Image::make($file)->resize(300, 300)->save(public_path('images/' . $filename));
+		Image::make($file)->save(public_path('images/' . $filename));
         
         $camp = Camps::findOrFail($id);
 		$camp->camp_pic = $filename;
 		$camp->save($request->all());
+        $user = Auth::user();
+        if ($user->admin) {
+            $camp = Camps::where('id', $id)->first();
+            $getStates = AddressesState::all();
 
-		$camps = Camps::where('id', $id)->first();
-                    return view('camps.edit', ['id', $id])->with('camps', $camps);
+
+            for($i=0; $i <count($getStates); $i++){
+                $states[$i]["id"]=$getStates[$i]->id;
+                $states[$i]["state"]=$getStates[$i]->state;
+            
+            }
+            return view('camps.edit', ['id', $id])->with(['camps' => $camp, 'states' => $states,]);
+        } else {
+            return response('Unauthorized', 401);
+        }
+		
 
 	}
 

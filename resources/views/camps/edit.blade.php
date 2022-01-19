@@ -11,8 +11,9 @@
 
                 <div class="card-body">
 
-                    <div class="form-group row col-md-10 ">
-                        <div class="card-img"><img src="/images/{{ $camps->camp_pic}}" style="float: center; text-align:center; height: 250px; width: 60%;"></div>
+                    <div style="text-align:center" class="form-group row col-md-10 ">
+                        <div class="card-img"><img src="/images/{{ $camps->camp_pic}}" style="float: center; text-align:center; max-height:100%; max-width:100%;"></div>
+                        
                         <a href="{{ route('camps.pic' , ['id' => $camps->id]) }}" class="btn btn-outline-primary btn-pill btn-sm pull-right"> Change Image</a>
                     </div>
 
