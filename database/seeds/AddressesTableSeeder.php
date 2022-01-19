@@ -72,14 +72,42 @@ class AddressesTableSeeder extends Seeder
 		]);
 
 		App\Address::create([
-			'street' => "Jalan 8",
+			'street' => "Jalan 9",
 			'state_id'=> 1,
 			'district_id'=>1,
 			'postcode'=>"45683",
 		]);
 
 		App\Address::create([
-			'street' => "Jalan 8",
+			'street' => "Jalan 10",
+			'state_id'=> 1,
+			'district_id'=>1,
+			'postcode'=>"45683",
+		]);
+
+		App\Address::create([
+			'street' => "Jalan 11",
+			'state_id'=> 1,
+			'district_id'=>1,
+			'postcode'=>"45683",
+		]);
+
+		App\Address::create([
+			'street' => "Jalan 12",
+			'state_id'=> 1,
+			'district_id'=>1,
+			'postcode'=>"45683",
+		]);
+
+		App\Address::create([
+			'street' => "Jalan 13",
+			'state_id'=> 1,
+			'district_id'=>1,
+			'postcode'=>"45683",
+		]);
+
+		App\Address::create([
+			'street' => "Jalan 14",
 			'state_id'=> 1,
 			'district_id'=>1,
 			'postcode'=>"45683",
