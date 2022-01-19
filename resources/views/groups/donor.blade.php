@@ -19,6 +19,7 @@
                                 <div class="form-group">
                                     <label for="groups_id">Blood Group : </label>
                                     <select name="groups_id" class="custom-select" id="groups_id">
+                                    <option value="0" selected="" disabled>Choose One</option>
                                         @foreach($groups as $group)
                                             <option value="{{ $group->id }}">{{ $group->b_group }}</option>
                                         @endforeach
@@ -28,8 +29,13 @@
 
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label for="address">Address : </label>
-                                    <input type="text" name="address"  class="form-control" id="address" placeholder="city , district">
+                                    <label for="State">State : </label>
+                                            <select name="stateId" class="state custom-select" id="stateId">
+                                            <option value="0" selected="" disabled>Choose One</option>
+                                                @foreach($states as $state)
+                                                <option value="{{ $state["id"] }}">{{ $state["state"] }}</option>
+                                                @endforeach
+                                            </select>
                                 </div>
                             </div>
 
@@ -96,7 +102,7 @@
                                     <td>{{ $user->gender }}</td>
                                     <td>{{ $user->getAge() }}</td>
                                     <td>{{ $user->mobile }}</td>
-                                    <td>{{ $user->address }}</td>
+                                    <td>{{ $user->Address->street }}, {{ $user->Address->AddressesDistrict->name }}, {{ $user->Address->postcode }}, {{ $user->Address->AddressesState->state }}</td>
 
                                 </tr>
                             @endforeach

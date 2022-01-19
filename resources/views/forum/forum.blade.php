@@ -8,12 +8,17 @@
         <div class="col-md-4">
             @if(Auth::check())
                 @if(Auth::user()->is_verified(Auth::user()->id))
-            <a href="{{ route('request.create') }}" class=" btn btn-primary">Request for blood</a>
-                <a href="{{ route('groups.search') }}" class=" btn btn-danger">Search for a donor</a>
+                        <a href="{{ route('request.create') }}" class=" btn btn-primary">Request blood</a>
+              
+                        <a href="{{ route('groups.search') }}" class=" btn btn-danger">Search donor</a>
+           
+                
+            
+            
 <hr>
                     @endif
             @endif
-                <div class="card sm-hidden">
+        <div class="card sm-hidden">
                     <h4 class="card-header">
                         Blood Groups
                     </h4>
@@ -69,8 +74,8 @@
 
                         </p>
 
-                        <button class="btn btn-outline-danger btn-sm">Required till  :   {{ $request->required_till }}</button>
-                        <button class="btn btn-outline-danger btn-sm pull-right">Required at :   {{ $request->address }}</button>
+                        <button class="btn btn-outline-danger btn-sm">Required till  :   {{ $request->required_till }}</button>  <br>
+                        <button class="btn btn-outline-danger btn-sm">Required at :    {{ $request->Address->street }}, {{ $request->Address->AddressesDistrict->name }}, {{ $request->Address->postcode }}, {{ $request->Address->AddressesState->state }}</button>
 
 
 
