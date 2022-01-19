@@ -142,7 +142,7 @@
                                 <select name="stateId" class="state custom-select" id="stateId">
                                         <option value="0" selected="" disabled>Choose One</option>
                                         @foreach($states as $state)
-                                        <option value={{ $state["id"] }}>{{ $state["state"] }}</option>
+                                        <option value="{{ $state["id"] }}">{{ $state["state"] }}</option>
                                         @endforeach
                                 </select>
                             </div>

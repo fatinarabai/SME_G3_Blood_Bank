@@ -116,7 +116,7 @@
                                         <td>{{ $a->user->gender }}</td>
                                         <td>{{ $a->user->getAge() }}</td>
                                         <td>{{ $a->user->mobile }}</td>
-                                        <td>{{ $a->user->address }}</td>
+                                        <td>{{ $a->user->Address->street }}, {{ $a->user->Address->AddressesDistrict->name }}, {{ $a->user->Address->postcode }}, {{ $a->user->Address->AddressesState->state }}</td>
 
 
 
@@ -126,8 +126,15 @@
 
                             </table>
 
-                            <button class="btn btn-outline-danger btn-sm">Required till  :   {{ $request->required_till }}</button>
-                            <button class="btn btn-outline-danger btn-sm pull-right">Required at :   {{ $request->address }}</button>
+                            
+                            <div>
+                                <button class="btn btn-outline-danger btn-sm">Required till  :   {{ $request->required_till }}</button>
+                            </div>
+                            <br>
+                            <div>
+                                <button class="btn btn-outline-danger btn-sm">Required at :   {{ $request->Address->street }}, {{ $request->Address->AddressesDistrict->name }}, {{ $request->Address->postcode }}, {{ $request->Address->AddressesState->state }}</button>
+                            </div>
+                            
 
 
                         </div>
