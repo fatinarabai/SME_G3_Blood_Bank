@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call('App\Http\Controllers\AddressesDistrictController@updateDistrictCovidZone')->everyMinute();
+        $schedule->call('App\Http\Controllers\AddressesDistrictController@updateDistrictCovidZone')->daily();
     }
 
     /**
