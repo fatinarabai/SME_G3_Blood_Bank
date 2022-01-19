@@ -56,32 +56,19 @@ class RequestController extends Controller
 			'required_till' => 'required|date|after:yesterday'
 		]);
 
-		$maps_url = 'https://' . 'maps.googleapis.com/' . 'maps/api/geocode/json' . '?address=' . urlencode($r->address);
-		$geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($r->address) . '&sensor=false');
-		$geo = json_decode($geo, true); // Convert the JSON to an array
-
-		if (isset($geo['status']) && ($geo['status'] == 'OK')) {
-			$latitude = $geo['results'][0]['geometry']['location']['lat']; // Latitude
-			$longitude = $geo['results'][0]['geometry']['location']['lng']; // Longitude
-
-			$req = Requests::create([
-				'contents' => $r->contents,
-				'user_id' => Auth::id(),
-				'groups_id' => $r->groups_id,
-				'required_till' => $r->required_till,
-				'address' => $r->address,
-				'latitude' => $latitude,
-				'longitude' => $longitude,
-			]);
-				$donors = self::closest($latitude, $longitude, 5)->where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->all();
-				Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
-
-
-
-		}
+		$req = Requests::create([
+			'contents' => $r->contents,
+			'user_id' => Auth::id(),
+			'groups_id' => $r->groups_id,
+			'required_till' => $r->required_till,
+			'address' => $r->address,
+			'latitude' => 28.212865,
+			'longitude' => 28.212865,
+		]);
+			$donors = self::closest($latitude, $longitude, 5)->where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->all();
+			Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
 
     	Session::flash('success' , 'Request posted successfully');
-
     	return redirect()->route('forum.show' , ['id' => $r->groups_id]);
 	}
 
@@ -104,33 +91,23 @@ class RequestController extends Controller
 
 		]);
 
-		$maps_url = 'https://' . 'maps.googleapis.com/' . 'maps/api/geocode/json' . '?address=' . urlencode($r->address);
-		$geo = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address=' . urlencode($r->address) . '&sensor=false');
-		$geo = json_decode($geo, true); // Convert the JSON to an array
+		$req = Requests::find($id);
 
-		if (isset($geo['status']) && ($geo['status'] == 'OK')) {
-			$latitude = $geo['results'][0]['geometry']['location']['lat']; // Latitude
-			$longitude = $geo['results'][0]['geometry']['location']['lng']; // Longitude
-
-			$req = Requests::find($id);
-
-			$req->contents = $r->contents;
-			$req->required_till = $r->required_till;
-			$req->address = $r->address;
-			$req->latitude = $latitude;
-			$req->longitude = $longitude;
+		$req->contents = $r->contents;
+		$req->required_till = $r->required_till;
+		$req->address = $r->address;
+		$req->latitude = 28.212865;
+		$req->longitude = 28.212865;
 
 
-			$req->save();
+		$req->save();
 
-			$donors = self::closest($latitude, $longitude, 5)->where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->all();
-			Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
-		}
+		$donors = self::closest($latitude, $longitude, 5)->where('groups_id' , $r->groups_id)->where('id' , '!=' ,Auth::id())->all();
+		Notification::send($donors , new \App\Notifications\NewRequestAdded($req));
 
-			Session::flash('success', 'Request updated successfully');
 
-			return redirect()->route('forum.show', ['id' => $id]);
-
+		Session::flash('success', 'Request updated successfully');
+		return redirect()->route('forum.show', ['id' => $id]);
 	}
 
 
