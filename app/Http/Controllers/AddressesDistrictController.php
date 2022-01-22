@@ -25,8 +25,15 @@ class AddressesDistrictController extends Controller
         $url = "https://raw.githubusercontent.com/MoH-Malaysia/covid19-public/main/epidemic/clusters.csv";
 
         // Get the csv content & explode by line.
-        $response = file_get_contents($url);
-
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($c, CURLOPT_URL, $url);
+        $response = curl_exec($c);
+        curl_close($c);
+  
+         // if ($contents) return $contents;
+         // else return FALSE;
+         // $response = file_get_contents($url);
         // Explode the content by line.
         $rows = explode("\n", $response);
 
