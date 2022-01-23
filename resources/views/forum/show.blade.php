@@ -44,6 +44,17 @@
         </div>
 
         <div class="col-md-8">
+        @if(Auth::check())
+            @if(Auth::user()->not_verified(Auth::user()->id))
+
+            <div class="card-body">
+
+                <h6 class="card-title text-danger text-center">This page's contents are inapplicable because your account still has not been verified.</h6>
+
+            </div>
+            @endif
+        @endif
+
             @foreach($requests as $request)
                 <div class="card sm-hidden">
 
