@@ -28,7 +28,7 @@
                                 </th>
 
                                 <th>
-                                    Total no of donors
+                                    Total
                                 </th>
 
                             <th>
